@@ -1,7 +1,5 @@
-package com.autoever.multitenancy.controller;
+package com.autoever.multitenancy.domain;
 
-import com.autoever.multitenancy.Location;
-import com.autoever.multitenancy.LocationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +11,10 @@ public class LocationController {
 
     private final LocationRepository locationRepository;
 
-    @PostMapping("/locations/{name}")
-    public Location add(@PathVariable String name) {
+    @PostMapping("/locations")
+    public Location add(@RequestBody Location location) {
 
-        return locationRepository.save(new Location(null, name));
+        return locationRepository.save(location);
     }
 
     @GetMapping("/locations")

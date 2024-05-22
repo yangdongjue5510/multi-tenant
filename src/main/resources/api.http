@@ -1,0 +1,24 @@
+### 테넌트 목록 조회
+GET http://localhost:8080/admin/tenants
+
+### 테넌트 추가
+POST http://localhost:8080/admin/tenants
+Content-Type: application/json
+
+{
+  "name" : "CPO 이름"
+}
+
+### 특정 테넌트의 로케이션 조회
+GET http://localhost:8080/locations
+TENANT_ID: {{tenantId}}
+Accept: application/json
+
+### 특정 테넌트에게 로케이션 추가
+POST http://localhost:8080/locations
+TENANT_ID: {{tenantId}}
+Content-Type: application/json
+
+{
+  "name" : "충전소 이름"
+}

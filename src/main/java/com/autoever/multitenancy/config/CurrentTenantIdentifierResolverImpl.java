@@ -19,7 +19,9 @@ public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentif
     @Override
     public String resolveCurrentTenantIdentifier() {
         String tenantId = getTenantId();
-        if (tenantId == null || tenantId.isEmpty()) return "MAIN";
+        if (tenantId == null || tenantId.isEmpty()) {
+            return ConfigConstants.ADMIN_TENANT_ID.getValue();
+        }
         return tenantId;
     }
 
@@ -32,7 +34,7 @@ public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentif
         }
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
         HttpServletRequest request = servletRequestAttributes.getRequest();
-        return request.getHeader("TENANT_ID");
+        return request.getHeader(ConfigConstants.TENANT_ID_KEY.getValue());
     }
 
     @Override

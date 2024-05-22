@@ -19,6 +19,7 @@ import java.util.Map;
 public class CustomMultiTenantConnectionProvider implements MultiTenantConnectionProvider<String>, HibernatePropertiesCustomizer {
 
     private final DataSource dataSource;
+    private final SchemaBuilder schemaBuilder;
 
     @Override
     public Connection getAnyConnection() throws SQLException {
@@ -33,13 +34,15 @@ public class CustomMultiTenantConnectionProvider implements MultiTenantConnectio
     @Override
     public Connection getConnection(String tenantId) throws SQLException {
         Connection connection = dataSource.getConnection();
-        connection.setSchema("SCHEMA_" + tenantId);
+        String tenantSchema = schemaBuilder.getTenantSchema(tenantId);
+        connection.setSchema(tenantSchema);
         return connection;
     }
 
     @Override
     public void releaseConnection(String tenantId, Connection connection) throws SQLException {
-        connection.setSchema("MAIN");
+        String adminSchema = schemaBuilder.getAdminSchema();
+        connection.setSchema(adminSchema);
         releaseAnyConnection(connection);
     }
 
